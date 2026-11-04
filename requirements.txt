@@ -1,0 +1,5 @@
+numpy>=1.26,<3
+pandas>=2.1,<4
+torch>=2.2,<3
+tqdm>=4.66,<5
+apexpy==2.1.1
