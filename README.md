@@ -1,6 +1,10 @@
 # CG-SimVP research code
 
-This release packages the supplied SimVP-style direct-field backbone, three successive extensions, and the streaming TEC evaluator. It supports the retrospective year split used in the manuscript.
+This repository provides the SimVP-style direct-field backbone, three successive extensions, and the streaming TEC evaluator. It supports the retrospective year split used in the manuscript.
+
+The project repository hosts the implementation and release documentation. [CG-SimVP repository](https://github.com/PANXIONG-CN/CG-SimVP)
+
+Corresponding authors are Pan Xiong (xiong.pan@gmail.com) and Xuhui Shen (shenxuhui@nssc.ac.cn).
 
 | Split | Years |
 | --- | --- |
@@ -8,7 +12,7 @@ This release packages the supplied SimVP-style direct-field backbone, three succ
 | Validation and checkpoint selection | 2013, 2017 |
 | Test | 2015, 2019 |
 
-The forecast uses 24 historical frames to predict 24 future frames at 15-minute cadence. JPLD supplies the reference TEC field. Geometry channels are deterministic functions of coordinates and UTC. The architecture is the supplied SimVP-style implementation, with the manuscript's direct-field backbone as Stage I.
+The forecast uses 24 historical frames to predict 24 future frames at 15-minute cadence. JPLD supplies the reference TEC field. Geometry channels are deterministic functions of coordinates and UTC. The four stages share a SimVP-style architecture, with direct-field prediction as Stage I.
 
 ## Environment
 
@@ -48,7 +52,7 @@ An existing `grid.npz` containing `lat` and `lon` can be supplied by omitting th
 
 The geometry defaults follow the documented settings. ApexPy 2.1.1 computes QD latitude/longitude at 450 km with a fixed July-1 epoch within each year. `mlon2mlt(0, UTC)` supplies an offset for every frame, using ApexPy's subsolar height of 318550 km. MLT is reconstructed as `(qd_lon / 15 + offset) % 24`. The generator cross-checks this expression against direct ApexPy calls and stores file hashes in each year's `metadata.json`.
 
-`prepare_geometry.py` is a public-release reconstruction of the documented interface. The original historical cache generator was a separate author script. Existing caches can be used directly after the version, grid, cadence and hashes are validated. The implementation follows the official ApexPy API. [ApexPy documentation](https://apexpy.readthedocs.io/en/stable/autoapi/generated/apexpy/apex/index.html)
+`prepare_geometry.py` generates QD coordinates and time-dependent MLT offsets using the settings above. Existing caches can be used after the version, grid, cadence and hashes are validated. [ApexPy documentation](https://apexpy.readthedocs.io/en/stable/autoapi/generated/apexpy/apex/index.html)
 
 ## Climatology and training
 
@@ -74,7 +78,7 @@ python train_cbam_clim.py --model-suffix cg_simvp --use-climatology 1 --attn-nam
 
 Defaults are hidden dimension 32, two temporal Inception modules, batch size 4, learning rate `6e-4`, up to 300 epochs, patience 50, and stride 24 for training and validation. Training uses AdamW with weight decay `1e-4`, SmoothL1Loss, gradient norm clipping at 5, and ReduceLROnPlateau with factor 0.5 and patience 10. The minimum learning rate is the initial rate multiplied by `1e-4`. The selected checkpoint minimizes validation global RMSE, computed from accumulated squared error and pixel count. Final predictions retain signed model outputs.
 
-Seed 42 and the original CUDA performance settings are retained. cuDNN benchmarking and TF32 are enabled, and CUDA training uses bfloat16 autocast.
+The random seed is 42. cuDNN benchmarking and TF32 are enabled, and CUDA training uses bfloat16 autocast.
 
 Use `--data-root`, `--model-save-dir`, `--grid-npz` and `--geometry-cache` for alternate locations. Training automatically validates the selected geometry and saves its provenance in `train_metrics_SimVP_SUFFIX.json`. `--geometry-provenance` optionally cross-checks an existing geometry summary. Preserve the metrics JSON with its matching `best_SimVP_SUFFIX.pth`. Existing checkpoint paths are protected against overwrite. All command-line options are available through `--help`.
 
@@ -97,12 +101,6 @@ The default EIA protocol samples every fourth UTC frame and every fourth longitu
 
 Optional `activity_csv` requires `start_utc,end_utc,kp,dst` with half-open UTC intervals. Optional `events_csv` requires `start_utc,end_utc,event_id,phase`. Activity labels remain `unknown` when activity data are absent. `case_times_utc` accepts explicit timezone-bearing ISO timestamps.
 
-## Release scope and licensing
+## Manuscript citation
 
-The supplied architecture, attention, residual construction, loss and evaluation formulas are retained. Public-release additions provide portable paths, documented defaults, geometry generation and metadata integration. Details and actual checks are in `RELEASE_NOTES.md`.
-
-TEC data, historical weights, original geometry assets, RNN/IRI2020/C1PG implementations, historical plotting scripts and the paired Bootstrap driver are separate author materials. The packaged evaluator exports sufficient statistics for follow-up analysis. Scientific result reproduction requires the corresponding data and checkpoints.
-
-Historical checkpoints and their matching training metadata require author provision through the paper's release channel. A weight archive and verified weight-download URL are currently unavailable in this package.
-
-License selection is pending author confirmation. Add the author's chosen license and final paper citation before repository publication.
+Yuqi Lin, Jing Liu, Pan Xiong, Jianghe Chen, Cheng Long, Huiyu Zhou, Angelo De Santis, and Xuhui Shen. "CG-SimVP for Global TEC Forecasting With Adaptive Climatological Residuals and Solar-Geomagnetic Geometry." Unpublished manuscript, 2026.
