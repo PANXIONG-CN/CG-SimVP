@@ -103,4 +103,4 @@ Optional `activity_csv` requires `start_utc,end_utc,kp,dst` with half-open UTC i
 
 ## Manuscript citation
 
-Yuqi Lin, Jing Liu, Pan Xiong, Jianghe Chen, Cheng Long, Huiyu Zhou, Angelo De Santis, and Xuhui Shen. "CG-SimVP for Global TEC Forecasting With Adaptive Climatological Residuals and Solar-Geomagnetic Geometry." Unpublished manuscript, 2026.
+Yuqi Lin, Jing Liu, Pan Xiong, Jianghe Chen, Cheng Long, Huiyu Zhou, and Xuhui Shen. "CG-SimVP for Global TEC Forecasting With Adaptive Climatological Residuals and Solar-Geomagnetic Geometry." Unpublished manuscript, 2026.
