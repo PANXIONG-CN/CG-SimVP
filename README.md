@@ -4,7 +4,7 @@ This repository provides the SimVP-style direct-field backbone, three successive
 
 The project repository hosts the implementation and release documentation. [CG-SimVP repository](https://github.com/PANXIONG-CN/CG-SimVP)
 
-Corresponding authors are Pan Xiong (xiong.pan@gmail.com) and Xuhui Shen (shenxuhui@nssc.ac.cn).
+Corresponding authors are Pan Xiong (xiongpan@nssc.ac.cn) and Jing Liu (liujingeva@163.com).
 
 | Split | Years |
 | --- | --- |
@@ -103,4 +103,4 @@ Optional `activity_csv` requires `start_utc,end_utc,kp,dst` with half-open UTC i
 
 ## Manuscript citation
 
-Yuqi Lin, Jing Liu, Pan Xiong, Jianghe Chen, Cheng Long, Huiyu Zhou, and Xuhui Shen. "CG-SimVP for Global TEC Forecasting With Adaptive Climatological Residuals and Solar-Geomagnetic Geometry." Unpublished manuscript, 2026.
+Yuqi Lin, Pan Xiong, Jing Liu, Jianghe Chen, Cheng Long, Huiyu Zhou, and Xuhui Shen. "CG-SimVP for Global TEC Forecasting With Adaptive Climatological Residuals and Solar-Geomagnetic Geometry." Unpublished manuscript, 2026.
